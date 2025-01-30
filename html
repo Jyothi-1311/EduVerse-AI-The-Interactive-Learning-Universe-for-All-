@@ -1,0 +1,81 @@
+import tkinter as tk
+from tkinter import messagebox
+
+class EduVerseAIApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("EduVerse AI: The Interactive Learning Universe")
+        self.root.geometry("500x400")
+        
+        # Title Label
+        self.title_label = tk.Label(root, text="Welcome to EduVerse AI", font=("Helvetica", 18, "bold"))
+        self.title_label.pack(pady=20)
+        
+        # Instruction Label
+        self.instruction_label = tk.Label(root, text="Select a Topic or Ask a Question:", font=("Helvetica", 12))
+        self.instruction_label.pack(pady=10)
+        
+        # Dropdown for topics
+        self.topics = ["Math", "Science", "History", "Technology", "Ask a Question"]
+        self.selected_topic = tk.StringVar()
+        self.selected_topic.set(self.topics[0])  # default value
+
+        self.topic_menu = tk.OptionMenu(root, self.selected_topic, *self.topics)
+        self.topic_menu.pack(pady=10)
+        
+        # Entry box for custom questions
+        self.query_entry_label = tk.Label(root, text="Or type a custom question:", font=("Helvetica", 10))
+        self.query_entry_label.pack(pady=5)
+
+        self.query_entry = tk.Entry(root, width=40)
+        self.query_entry.pack(pady=5)
+
+        # Submit button
+        self.submit_button = tk.Button(root, text="Submit", command=self.process_input)
+        self.submit_button.pack(pady=20)
+        
+    def process_input(self):
+        selected_topic = self.selected_topic.get()
+        query = self.query_entry.get().strip()
+
+        if selected_topic == "Ask a Question" and query:
+            # If user types a custom question
+            self.show_answer(query)
+        else:
+            # If user selects a topic
+            self.show_topic_info(selected_topic)
+    
+    def show_topic_info(self, topic):
+        topic_info = {
+            "Math": "Math is the study of numbers, shapes, and patterns. It includes topics like algebra, calculus, and geometry.",
+            "Science": "Science is the exploration of the natural world through observation and experiments. Topics include physics, biology, and chemistry.",
+            "History": "History is the study of past events and how they shape our present and future. It covers ancient, medieval, and modern history.",
+            "Technology": "Technology is the application of scientific knowledge for practical purposes. It includes areas like computer science, engineering, and innovation."
+        }
+
+        info = topic_info.get(topic, "Topic not found!")
+
+        # Show information in a message box
+        messagebox.showinfo(f"Learn about {topic}", info)
+
+    def show_answer(self, question):
+        answers = {
+            "What is Python?": "Python is a popular programming language known for its simplicity and readability. It's used in various fields like web development, data science, and automation.",
+            "What is AI?": "AI (Artificial Intelligence) refers to the simulation of human intelligence in machines that are programmed to think and learn.",
+            "What is the Earth made of?": "The Earth is made up of a core (inner and outer), mantle, and crust. It is primarily composed of iron, oxygen, silicon, and magnesium.",
+            "Who invented the lightbulb?": "Thomas Edison is often credited with inventing the first commercially successful lightbulb in 1879."
+        }
+
+        answer = answers.get(question, "Sorry, I don't have an answer for that question. Try another one!")
+
+        # Show custom answer in a message box
+        messagebox.showinfo("Answer", answer)
+
+# Create the main window
+root = tk.Tk()
+
+# Create an instance of EduVerseAIApp
+app = EduVerseAIApp(root)
+
+# Run the application
+root.mainloop()
